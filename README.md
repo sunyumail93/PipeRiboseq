@@ -15,3 +15,7 @@ cufflinks (optional)
 ribotish (optional, it requires Python2)
 ```
 Besides the pipeline script PipeRiboseq.sh, dependencies are in /bin folder
+
+Two UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: bedGraphToBigWig and bigWigToBedGraph. Other scripts were generated from this project.
+
+To safe time, you can directly use STAR and featureCounts program in /bin folder (just add it to $PATH), rathan than installing them again.
