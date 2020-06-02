@@ -1,7 +1,7 @@
 # PipeRiboseq
 A comprehensive pipeline for Ribo-seq data analysis
 ## Software prerequisites
-This pipeline is designed to run Linux servers, and requires the following softwares:
+This pipeline is designed to run on Linux servers, and requires the following softwares:
 ```
 Python2
 STAR
