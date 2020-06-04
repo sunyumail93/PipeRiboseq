@@ -26,8 +26,8 @@ Here is an example of mm10 genome setup.
 
 1, Download scripts from github to Linux server:
 
-`git clone https://github.com/sunyumail93/PipeRiboseq.git
-mv PipeRiboseq PipelineHomeDir`
+```git clone https://github.com/sunyumail93/PipeRiboseq.git
+mv PipeRiboseq PipelineHomeDir```
 
 2, Set up index files for genome mapping
 
