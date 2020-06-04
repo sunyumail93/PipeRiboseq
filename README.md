@@ -35,9 +35,11 @@ mv PipeRiboseq PipelineHomeDir
 
 2a, Download whole genome fasta sequence from UCSC goldenpath:
 
-`cd PipelineHomeDir/mm10/Sequence
+```
+cd PipelineHomeDir/mm10/Sequence
 wget http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.fa.gz
-gunzip *`
+gunzip *
+```
 
 2b, Set up index files:
 `cd PipelineHomeDir/mm10/Index`
