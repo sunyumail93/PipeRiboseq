@@ -61,11 +61,22 @@ bowtie2-build ../../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
 
 ## Pipeline components
 ```
----PipelineHomeDir
-  |---PipeRiboseq.sh
-  |---bin/
-  |---mm10/
-    |------Annotation/
+PipelineHomeDir/
+    ├── PipeRiboseq.sh
+    ├── bin/
+    └── mm10/
+      ├── Annotation/
+        ├── mm10.RefSeq.reduced.bed12
+        ├── mm10.RefSeq.reduced.mRNA.bed12
+        ├── mm10.RefSeq.reduced.mRNA.bed12
+        ├── mm10.RefSeq.reduced.bed12.geneid.gtf
+        └── mm10.uniqMatching.txt
+      ├── Index/
+        ├── miRNAIndex/
+        ├── rRNAIndex/
+        ├── SalmonIndex/
+        └── STARIndex/
+      ├── Sequence/
 ```
 
 ## Usage
