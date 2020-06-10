@@ -42,4 +42,33 @@ gunzip *
 ```
 
 2b, Set up index files:
-`cd PipelineHomeDir/mm10/Index`
+```
+cd PipelineHomeDir/mm10/Index
+
+#STAR index:
+mkdir STARIndex
+STAR --runMode genomeGenerate --genomeDir STARIndex --genomeFastaFiles ../Sequence/mm10.fa --sjdbGTFfile ../Annotation/mm10.RefSeq.reduced.bed12.geneid.gtf --sjdbOverhang 100
+
+#salmon index:
+salmon index -t ../Sequence/mm10.RefSeq.reduced.bed12.fa -i SalmonIndex --type quasi -k 31
+
+#miRNA and rRNA bowtie2 index:
+mkdir miRNAIndex
+mkdir rRNAIndex
+bowtie2-build ../../Sequence/mm10.rRNA.fa ./rRNAIndex/rRNAIndex
+bowtie2-build ../../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
+```
+3, Usage
+
+Type the pipeline name, then you will see the manual page:
+
+`PipeRiboseq.sh`
+
+Manual page:
+
+4, Examples:
+```
+A regular run using mostly default parameters:
+
+
+```
