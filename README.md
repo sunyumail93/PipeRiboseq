@@ -58,7 +58,20 @@ mkdir rRNAIndex
 bowtie2-build ../../Sequence/mm10.rRNA.fa ./rRNAIndex/rRNAIndex
 bowtie2-build ../../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
 ```
-3, Usage
+
+## Pipeline components
+
+---PipelineHomeDir
+
+  |---PipeRiboseq.sh
+  
+  |---bin/
+  
+  |---mm10/
+  
+    |------Annotation/
+
+## Usage
 
 Type the pipeline name, then you will see the manual page:
 
@@ -66,9 +79,14 @@ Type the pipeline name, then you will see the manual page:
 
 Manual page:
 
-4, Examples:
-```
+## Examples
+
 A regular run using mostly default parameters:
 
+`PipeRiboseq.sh -i Data.fastq.gz -g mm10 -normCDS`
 
-```
+More parameters used, and plot given genes in list file (mRNAs in the list file must be Refseq mRNA ID: NM_xxx):
+
+`PipeRiboseq.sh -i Data.fastq.gz -g mm10 -noqc -noriboqc -p 4 -normCDS -m 3 -plotRNA list`
+
+
