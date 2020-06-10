@@ -60,16 +60,13 @@ bowtie2-build ../../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
 ```
 
 ## Pipeline components
-
+```
 ---PipelineHomeDir
-
   |---PipeRiboseq.sh
-  
   |---bin/
-  
   |---mm10/
-  
     |------Annotation/
+```
 
 ## Usage
 
