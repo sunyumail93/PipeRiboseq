@@ -86,8 +86,12 @@ PipelineHomeDir/
 
 Notes: 
 1, For Annotation folder, download GTF file from UCSC table browser. `reduced`: Only one location was chosen when one gene duplicates at multiple genomic loci.
-2, `uniqMatching.txt` file contains one-to-one matching from transcript to gene name
-3, For Sequence folder, `RefSeq.reduced.bed12.fa` converts from `RefSeq.reduced.bed12` file using bedtools
+
+2, `uniqMatching.txt` file contains one-to-one matching from transcript to gene name.
+
+3, For Index folder, indexes are not included in this github directory, but need to be created during set up.
+
+4, For Sequence folder, `RefSeq.reduced.bed12.fa` converts from `RefSeq.reduced.bed12` file using bedtools. genome.fa file also needs to be downloaded from UCSC goldenpath.
 
 ## Usage
 
