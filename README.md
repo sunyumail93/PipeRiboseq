@@ -65,18 +65,17 @@ PipelineHomeDir/
     ├── PipeRiboseq.sh
     ├── bin/
     └── mm10/
-      ├── Annotation/
+      └── Annotation/
         ├── mm10.RefSeq.reduced.bed12
-        ├── mm10.RefSeq.reduced.mRNA.bed12
         ├── mm10.RefSeq.reduced.mRNA.bed12
         ├── mm10.RefSeq.reduced.bed12.geneid.gtf
         └── mm10.uniqMatching.txt
-      ├── Index/
+      └── Index/
         ├── miRNAIndex/
         ├── rRNAIndex/
         ├── SalmonIndex/
         └── STARIndex/
-      ├── Sequence/
+      └── Sequence/
         ├── mm10.fa
         ├── mm10.fai
         ├── mm10.ChromInfo.txt
@@ -86,8 +85,9 @@ PipelineHomeDir/
 ```
 
 Notes: 
-
 1, For Annotation folder, download GTF file from UCSC table browser. `reduced`: Only one location was chosen when one gene duplicates at multiple genomic loci.
+2, `uniqMatching.txt` file contains one-to-one matching from transcript to gene name
+3, For Sequence folder, `RefSeq.reduced.bed12.fa` converts from `RefSeq.reduced.bed12` file using bedtools
 
 ## Usage
 
@@ -109,4 +109,16 @@ More parameters used, and plot given genes in list file (mRNAs in the list file 
 
 `PipeRiboseq.sh -i Data.fastq.gz -g mm10 -noqc -noriboqc -p 4 -normCDS -m 3 -plotRNA list`
 
+## Outputs
 
+1, Length distribution of Ribo-seq mapped reads:
+
+![](images/Lendis.png)
+
+2, Ribo-seq corrected 5´-ends around top expressed mRNAs' AUG:
+
+![](images/Meta.AUG.png)
+
+3, Ribo-seq corrected 5´-ends around top expressed mRNAs' STOP codon:
+
+![](images/Meta.STOP.png)
