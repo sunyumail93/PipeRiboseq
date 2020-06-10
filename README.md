@@ -85,6 +85,10 @@ PipelineHomeDir/
         └── mm10.RefSeq.reduced.bed12.fa
 ```
 
+Notes: 
+
+1, For Annotation folder, download GTF file from UCSC table browser. `reduced`: Only one location was chosen when one gene duplicates at multiple genomic loci.
+
 ## Usage
 
 Type the pipeline name, then you will see the manual page:
@@ -93,7 +97,7 @@ Type the pipeline name, then you will see the manual page:
 
 Manual page:
 
-![](images/Usage.png)
+![](images/Usages.png)
 
 ## Examples
 
