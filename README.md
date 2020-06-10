@@ -77,6 +77,12 @@ PipelineHomeDir/
         ├── SalmonIndex/
         └── STARIndex/
       ├── Sequence/
+        ├── mm10.fa
+        ├── mm10.fai
+        ├── mm10.ChromInfo.txt
+        ├── mm10.miRNA.fa
+        ├── mm10.rRNA.fa
+        └── mm10.RefSeq.reduced.bed12.fa
 ```
 
 ## Usage
@@ -86,6 +92,8 @@ Type the pipeline name, then you will see the manual page:
 `PipeRiboseq.sh`
 
 Manual page:
+
+![](images/Usage.png)
 
 ## Examples
 
