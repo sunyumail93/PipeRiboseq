@@ -148,6 +148,10 @@ Use a public dataset: [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?ter
 
 ![](images/Meta.STOP.png)
 
-4, Ribo-seq QC by [RiboTISH](https://github.com/zhpn1024/ribotish):
+4, An example of individual gene visualization:
+
+![](images/Actb.png)
+
+5, Ribo-seq QC by [RiboTISH](https://github.com/zhpn1024/ribotish):
 
 ![](images/RiboTISHQC.png)
