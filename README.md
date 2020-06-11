@@ -104,6 +104,10 @@ Manual page:
 
 ![](images/Usages.png)
 
+The trimming pipeline also has manual page:
+
+`PipeSETrimmer.sh`
+
 ## Examples
 
 A regular run using mostly default parameters:
@@ -113,6 +117,22 @@ A regular run using mostly default parameters:
 More parameters used, and plot given genes in list file (mRNAs in the list file must be Refseq mRNA ID: NM_xxx):
 
 `PipeRiboseq.sh -i Data.fastq.gz -g mm10 -noqc -noriboqc -p 4 -normCDS -m 3 -plotRNA list`
+
+## Run a real data to test the pipeline
+
+1, Download data
+
+Use a public dataset: https://www.ncbi.nlm.nih.gov/sra/?term=SRR989509&utm_source=gquery&utm_medium=search
+
+`fastq-dump --split-3 SRR989509`
+
+2, Trim adaptor using the trimming script from this repository: PipeSETrimmer.sh
+
+`PipeSETrimmer.sh`
+
+3, Run Ribo-seq pipeline:
+
+`PipeRiboseq.sh -i Data.trimmed.fastq.gz -g mm10 -p 4 -normCDS`
 
 ## Outputs
 
