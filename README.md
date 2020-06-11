@@ -148,6 +148,6 @@ Use a public dataset: [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?ter
 
 ![](images/Meta.STOP.png)
 
-4, Ribo-seq QC by RiboTISH sortware:
+4, Ribo-seq QC by [RiboTISH](https://github.com/zhpn1024/ribotish):
 
 ![](images/RiboTISHQC.png)
