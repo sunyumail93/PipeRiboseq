@@ -3,6 +3,7 @@ A comprehensive pipeline for Ribo-seq data analysis
 ## Software prerequisites
 This pipeline is designed to run on Linux servers, and requires the following softwares:
 ```
+R
 Python2
 STAR
 bowtie2
