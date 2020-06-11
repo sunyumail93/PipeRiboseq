@@ -122,7 +122,7 @@ More parameters used, and plot given genes in list file (mRNAs in the list file 
 
 1, Download data
 
-Use a public dataset: https://www.ncbi.nlm.nih.gov/sra/?term=SRR989509&utm_source=gquery&utm_medium=search
+Use a public dataset: [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?term=SRR989509&utm_source=gquery&utm_medium=search)
 
 `fastq-dump --split-3 SRR989509`
 
