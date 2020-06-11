@@ -147,3 +147,7 @@ Use a public dataset: [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?ter
 3, Ribo-seq corrected 5´-ends around top expressed mRNAs' STOP codon:
 
 ![](images/Meta.STOP.png)
+
+4, Ribo-seq QC by RiboTISH sortware:
+
+![](images/RiboTISHQC.png)
