@@ -106,7 +106,9 @@ Notes:
 
 Type the pipeline name, then you will see the manual page:
 
-```PipeRiboseq.sh```
+```
+PipeRiboseq.sh
+```
 
 Manual page:
 
@@ -114,7 +116,9 @@ Manual page:
 
 The trimming script also has manual page:
 
-```FastqAdapterTimmer```
+```
+FastqAdapterTimmer
+```
 
 ![](images/TrimmerUsages.png)
 
@@ -122,11 +126,15 @@ The trimming script also has manual page:
 
 A regular run using mostly default parameters:
 
-`PipeRiboseq.sh -i Data.fastq.gz -g mm10 -normCDS`
+```
+PipeRiboseq.sh -i Data.fastq.gz -g mm10 -normCDS
+```
 
 More parameters used, and plot given genes in list file (mRNAs in the list file must be Refseq mRNA ID: NM_xxx):
 
-`PipeRiboseq.sh -i Data.fastq.gz -g mm10 -noqc -noriboqc -p 4 -normCDS -m 3 -plotRNA list`
+```
+PipeRiboseq.sh -i Data.fastq.gz -g mm10 -noqc -noriboqc -p 4 -normCDS -m 3 -plotRNA list
+```
 
 ## Run a real data to test the pipeline
 
@@ -134,16 +142,22 @@ More parameters used, and plot given genes in list file (mRNAs in the list file 
 
 Use a public dataset: [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?term=SRR989509&utm_source=gquery&utm_medium=search)
 
-```fastq-dump --split-3 SRR989509```
+```
+fastq-dump --split-3 SRR989509
+```
 
 2, Trim adaptor using the trimming script from /bin repository: FastqAdapterTimmer
 
-```FastqAdapterTimmer -i SRR989509.fastq -a CTGTAG -o Data.trimmed.fastq
-gzip Data.trimmed.fastq```
+```
+FastqAdapterTimmer -i SRR989509.fastq -a CTGTAG -o Data.trimmed.fastq
+gzip Data.trimmed.fastq
+```
 
 3, Run Ribo-seq pipeline:
 
-`PipeRiboseq.sh -i Data.trimmed.fastq.gz -g mm10 -p 4 -normCDS`
+```
+PipeRiboseq.sh -i Data.trimmed.fastq.gz -g mm10 -p 4 -normCDS
+```
 
 ## Outputs
 
