@@ -60,6 +60,12 @@ bowtie2-build ../../Sequence/mm10.rRNA.fa ./rRNAIndex/rRNAIndex
 bowtie2-build ../../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
 ```
 
+3, Compile the C++ program if necessary
+
+The FastqAdapterTimmer binary file was compiled on Linux system. It may need to be compiled again:
+
+`g++ FastqAdapterTimmer.cpp -o FastqAdapterTimmer`
+
 ## Pipeline components
 ```
 PipelineHomeDir/
@@ -104,9 +110,11 @@ Manual page:
 
 ![](images/Usages.png)
 
-The trimming pipeline also has manual page:
+The trimming script also has manual page:
 
-`PipeSETrimmer.sh`
+`FastqAdapterTimmer`
+
+![](images/TrimmerUsages.png)
 
 ## Examples
 
@@ -126,9 +134,11 @@ Use a public dataset: [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?ter
 
 `fastq-dump --split-3 SRR989509`
 
-2, Trim adaptor using the trimming script from this repository: PipeSETrimmer.sh
+2, Trim adaptor using the trimming script from /bin repository: FastqAdapterTimmer
 
-`PipeSETrimmer.sh`
+`FastqAdapterTimmer -i SRR989509.fastq -a CTGTAG -o Data.trimmed.fastq
+gzip Data.trimmed.fastq
+`
 
 3, Run Ribo-seq pipeline:
 
