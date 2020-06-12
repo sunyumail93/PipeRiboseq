@@ -91,9 +91,12 @@ PipelineHomeDir/
         ├── mm10.miRNA.fa
         ├── mm10.rRNA.fa
         └── mm10.RefSeq.reduced.bed12.fa
+    └── hg38/
+       ...
 ```
 
 Notes: 
+
 1, For Annotation folder, download GTF file from UCSC table browser. `reduced`: Only one location was chosen when one gene duplicates at multiple genomic loci.
 
 2, `uniqMatching.txt` file contains one-to-one matching from transcript to gene name.
