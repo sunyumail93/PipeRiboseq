@@ -136,10 +136,9 @@ Use a public dataset: [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?ter
 
 2, Trim adaptor using the trimming script from /bin repository: FastqAdapterTimmer
 
-```
-FastqAdapterTimmer -i SRR989509.fastq -a CTGTAG -o Data.trimmed.fastq
-gzip Data.trimmed.fastq
-```
+`FastqAdapterTimmer -i SRR989509.fastq -a CTGTAG -o Data.trimmed.fastq`
+
+`gzip Data.trimmed.fastq`
 
 3, Run Ribo-seq pipeline:
 
