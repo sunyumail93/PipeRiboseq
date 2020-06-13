@@ -34,12 +34,13 @@ mv PipeRiboseq PipelineHomeDir
 
 2, Set up index files for genome mapping
 
-2a, Download whole genome fasta sequence from UCSC goldenpath:
+2a, Download whole genome fasta sequence and chromosome sizes from UCSC goldenpath:
 
 ```
 cd PipelineHomeDir/mm10/Sequence
 wget http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.fa.gz
-gunzip *
+gunzip mm10.fa.gz
+wget "http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes" -O mm10.ChromInfo.txt
 ```
 
 2b, Set up index files:
@@ -50,7 +51,7 @@ cd PipelineHomeDir/mm10/Index
 mkdir STARIndex
 STAR --runMode genomeGenerate --genomeDir STARIndex --genomeFastaFiles ../Sequence/mm10.fa --sjdbGTFfile ../Annotation/mm10.RefSeq.reduced.bed12.geneid.gtf --sjdbOverhang 100
 
-#salmon index:
+#salmon index (SalmonIndex will be created automatically):
 salmon index -t ../Sequence/mm10.RefSeq.reduced.bed12.fa -i SalmonIndex --type quasi -k 31
 
 #miRNA and rRNA bowtie2 index:
@@ -58,6 +59,11 @@ mkdir miRNAIndex
 mkdir rRNAIndex
 bowtie2-build ../../Sequence/mm10.rRNA.fa ./rRNAIndex/rRNAIndex
 bowtie2-build ../../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
+
+#Genome FASTA index fai file
+#Usually this file will be generated with using samtools:
+cd PipelineHomeDir/mm10/Sequence
+samtools faidx mm10.fa
 ```
 
 3, Compile the C++ program if necessary
