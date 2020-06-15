@@ -45,6 +45,8 @@ wget "http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes" -
 
 2b, Extract RNA sequences
 ```
+cd PipelineHomeDir/mm10/Annotation
+gunzip *.gz
 bedtools
 ```
 
