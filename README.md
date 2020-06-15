@@ -39,13 +39,18 @@ mv PipeRiboseq PipelineHomeDir
 ```
 cd PipelineHomeDir/mm10/Sequence
 wget http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.fa.gz
-gunzip mm10.fa.gz
+gunzip *.gz
 wget "http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes" -O mm10.ChromInfo.txt
 ```
 
-2b, Set up index files:
+2b, Extract RNA sequences
 ```
-cd PipelineHomeDir/mm10/Index
+bedtools
+```
+
+3b, Set up index files:
+```
+mkdir PipelineHomeDir/mm10/Index
 
 #STAR index:
 mkdir STARIndex
