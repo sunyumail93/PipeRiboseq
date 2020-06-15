@@ -47,10 +47,12 @@ wget "http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes" -
 ```
 cd PipelineHomeDir/mm10/Annotation
 gunzip *.gz
-bedtools
+cd ../Sequence
+bedtools getfasta -s -split -name -fi mm10.fa -bed ../Annotation/mm10.RefSeq.reduced.bed12 -fo mm10.RefSeq.reduced.bed12.fa.t
+cat mm10.RefSeq.reduced.bed12.fa.t|sed 's/::.*//' > mm10.RefSeq.reduced.bed12.fa
 ```
 
-3b, Set up index files:
+2c, Set up index files:
 ```
 mkdir PipelineHomeDir/mm10/Index
 
