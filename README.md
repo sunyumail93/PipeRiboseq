@@ -19,7 +19,7 @@ Besides the pipeline script PipeRiboseq.sh, dependencies are in ./bin folder
 
 Two UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: bedGraphToBigWig and bigWigToBedGraph. Other scripts were generated from this project.
 
-To save time, you can directly use STAR and featureCounts program in the ./bin folder (just add it to $PATH), without installing them again.
+To save time, you can directly use featureCounts program in the ./bin folder (just add it to $PATH), without installing them again.
 
 ## Pipeline setup
 
@@ -60,19 +60,15 @@ mkdir PipelineHomeDir/mm10/Index
 mkdir STARIndex
 STAR --runMode genomeGenerate --genomeDir STARIndex --genomeFastaFiles ../Sequence/mm10.fa --sjdbGTFfile ../Annotation/mm10.RefSeq.reduced.bed12.geneid.gtf --sjdbOverhang 100
 
-#salmon index (SalmonIndex will be created automatically):
+#salmon index (SalmonIndex directory will be created automatically):
+#Genome FASTA index fai file will also be generated
 salmon index -t ../Sequence/mm10.RefSeq.reduced.bed12.fa -i SalmonIndex --type quasi -k 31
 
 #miRNA and rRNA bowtie2 index:
 mkdir miRNAIndex
 mkdir rRNAIndex
-bowtie2-build ../../Sequence/mm10.rRNA.fa ./rRNAIndex/rRNAIndex
-bowtie2-build ../../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
-
-#Genome FASTA index fai file
-#Usually this file will be generated with using samtools:
-cd PipelineHomeDir/mm10/Sequence
-samtools faidx mm10.fa
+bowtie2-build ../Sequence/mm10.rRNA.fa ./rRNAIndex/rRNAIndex
+bowtie2-build ../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
 ```
 
 3, Compile the C++ program if necessary
@@ -81,6 +77,15 @@ The FastqAdapterTimmer binary file was compiled on Linux system. It may need to 
 
 ```
 g++ FastqAdapterTimmer.cpp -o FastqAdapterTimmer
+```
+
+4, Add executable permissions
+
+```
+chmod +x PipeRiboseq.sh
+chmod +x ./bin/FastqAdapterTimmer
+chmod +x ./bin/bedGraphToBigWig
+chmod +x ./bin/bigWigToBedGraph
 ```
 
 ## Pipeline components
