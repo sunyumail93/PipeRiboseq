@@ -704,10 +704,14 @@ rm -rf ${OutputPrefix_AUG}.bedGraph.summary ${OutputPrefix_AUG}.bedGraph.summary
 rm -rf ${OutputPrefix_STOP}.bedGraph.summary ${OutputPrefix_STOP}.bedGraph.summary.t && touch ${OutputPrefix_STOP}.bedGraph.summary.t
 #Generate bigWig format for the data, raw reads:
 echo "   Generating track files"
-bedtools genomecov -bga -split -strand + -i ${Data5endRPF} -scale $ScalingPlus -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.plus.bedGraph
-bedtools genomecov -bga -split -strand - -i ${Data5endRPF} -scale $ScalingMinus -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.minus.bedGraph
-bedtools genomecov -bga -split -strand + -i ${DataFullRPF} -scale $ScalingPlus -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.plus.bedGraph
-bedtools genomecov -bga -split -strand - -i ${DataFullRPF} -scale $ScalingMinus -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.minus.bedGraph
+bedtools genomecov -bga -split -strand + -i ${Data5endRPF} -scale $ScalingPlus -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.plus.bedGraph.t
+bedtools genomecov -bga -split -strand - -i ${Data5endRPF} -scale $ScalingMinus -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.minus.bedGraph.t
+bedtools genomecov -bga -split -strand + -i ${DataFullRPF} -scale $ScalingPlus -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.plus.bedGraph.t
+bedtools genomecov -bga -split -strand - -i ${DataFullRPF} -scale $ScalingMinus -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.minus.bedGraph.t
+sort -k1,1 -k2,2n ${Data5endRPF}.plus.bedGraph.t > ${Data5endRPF}.plus.bedGraph && rm -rf ${Data5endRPF}.plus.bedGraph.t
+sort -k1,1 -k2,2n ${Data5endRPF}.minus.bedGraph.t > ${Data5endRPF}.minus.bedGraph && rm -rf ${Data5endRPF}.minus.bedGraph.t
+sort -k1,1 -k2,2n ${DataFullRPF}.plus.bedGraph.t > ${DataFullRPF}.plus.bedGraph && rm -rf ${DataFullRPF}.plus.bedGraph.t
+sort -k1,1 -k2,2n ${DataFullRPF}.minus.bedGraph.t > ${DataFullRPF}.minus.bedGraph && rm -rf ${DataFullRPF}.minus.bedGraph.t
 $HomeDir/bin/bedGraphToBigWig ${Data5endRPF}.plus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${Data5endRPF}.plus.bedGraph.bw
 $HomeDir/bin/bedGraphToBigWig ${Data5endRPF}.minus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${Data5endRPF}.minus.bedGraph.bw
 $HomeDir/bin/bedGraphToBigWig ${DataFullRPF}.plus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${DataFullRPF}.plus.bedGraph.bw
@@ -752,6 +756,28 @@ do
     bedtools genomecov -bga -split -strand + -i ${OutputPrefix_STOP}.${name}.RPF -scale $ScalingPlus -g ${OutputPrefix_STOP}.${name}.chr > ${OutputPrefix_STOP}.${name}.plus.bedGraph
     bedtools genomecov -bga -split -strand - -i ${OutputPrefix_STOP}.${name}.RPF -scale $ScalingMinus -g ${OutputPrefix_STOP}.${name}.chr > ${OutputPrefix_STOP}.${name}.minus.bedGraph
 
+    #A worst case, if there is no reads in the given region, fill 0:
+    if [ ! -s ${OutputPrefix_Both}.${name}.plus.bedGraph ];then
+        awk '{OFS="\t";print $1,"0",$2,"0"}' ${OutputPrefix_Both}.${name}.chr > ${OutputPrefix_Both}.${name}.plus.bedGraph
+    fi
+    if [ ! -s ${OutputPrefix_Both}.${name}.minus.bedGraph ];then
+        awk '{OFS="\t";print $1,"0",$2,"-0"}' ${OutputPrefix_Both}.${name}.chr > ${OutputPrefix_Both}.${name}.minus.bedGraph
+    fi
+
+    if [ ! -s ${OutputPrefix_AUG}.${name}.plus.bedGraph ];then
+        awk '{OFS="\t";print $1,"0",$2,"0"}' ${OutputPrefix_AUG}.${name}.chr > ${OutputPrefix_AUG}.${name}.plus.bedGraph
+    fi
+    if [ ! -s ${OutputPrefix_AUG}.${name}.minus.bedGraph ];then
+        awk '{OFS="\t";print $1,"0",$2,"-0"}' ${OutputPrefix_AUG}.${name}.chr > ${OutputPrefix_AUG}.${name}.minus.bedGraph
+    fi
+	
+    if [ ! -s ${OutputPrefix_STOP}.${name}.plus.bedGraph ];then
+        awk '{OFS="\t";print $1,"0",$2,"0"}' ${OutputPrefix_STOP}.${name}.chr > ${OutputPrefix_STOP}.${name}.plus.bedGraph
+    fi
+    if [ ! -s ${OutputPrefix_STOP}.${name}.minus.bedGraph ];then
+        awk '{OFS="\t";print $1,"0",$2,"-0"}' ${OutputPrefix_STOP}.${name}.chr > ${OutputPrefix_STOP}.${name}.minus.bedGraph
+    fi
+
     #Calculate single base coverage
     python $HomeDir/bin/BedGraphRegionFiller.py ${OutputPrefix_Full}.${name}.plus.bedGraph ${OutputPrefix_Full}.${name}.plus.bedGraph.bb
     python $HomeDir/bin/BedGraphRegionFiller.py ${OutputPrefix_Full}.${name}.minus.bedGraph ${OutputPrefix_Full}.${name}.minus.bedGraph.bb
@@ -778,7 +804,7 @@ do
     #Check the output file, if empty, add one column of Nt
     if [ ! -s ${OutputPrefix_AUG}.bedGraph.summary.t ];then
         #Get the Ns
-        TotalLines=`wc -l ${OutputPrefix_AUG}.${name}.sense.bedGraph|awk '{print $1}'`
+        TotalLines=${Frag}
         Extend=`calculating $TotalLines/2-0.5`
         Right=`calculating $Extend-3+1`
         echo "Nucleotide" > ${OutputPrefix_AUG}.bedGraph.summary.t
@@ -790,7 +816,7 @@ do
     fi
     if [ ! -s ${OutputPrefix_STOP}.bedGraph.summary.t ];then
         #Get the Ns                                                                                                                                                                                                         
-        TotalLines=`wc -l ${OutputPrefix_STOP}.${name}.sense.bedGraph|awk '{print $1}'`
+        TotalLines=${Frag}
         Extend=`calculating $TotalLines/2-0.5`
         Right=`calculating $Extend-3+1`
         echo "Nucleotide" > ${OutputPrefix_STOP}.bedGraph.summary.t
@@ -849,10 +875,14 @@ if [ $normCDS == "1" ];then
   mv ${DataFullRPF}.plus.bedGraph.bw ${DataFullRPF}.plus.NormCDS.bedGraph.bw
   mv ${DataFullRPF}.minus.bedGraph.bw ${DataFullRPF}.minus.NormCDS.bedGraph.bw
   echo "   Generating track files using raw data"
-  bedtools genomecov -bga -split -strand + -i ${Data5endRPF} -scale 1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.plus.bedGraph
-  bedtools genomecov -bga -split -strand - -i ${Data5endRPF} -scale -1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.minus.bedGraph
-  bedtools genomecov -bga -split -strand + -i ${DataFullRPF} -scale 1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.plus.bedGraph
-  bedtools genomecov -bga -split -strand - -i ${DataFullRPF} -scale -1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.minus.bedGraph
+  bedtools genomecov -bga -split -strand + -i ${Data5endRPF} -scale 1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.plus.bedGraph.t
+  bedtools genomecov -bga -split -strand - -i ${Data5endRPF} -scale -1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.minus.bedGraph.t
+  bedtools genomecov -bga -split -strand + -i ${DataFullRPF} -scale 1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.plus.bedGraph.t
+  bedtools genomecov -bga -split -strand - -i ${DataFullRPF} -scale -1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.minus.bedGraph.t
+  sort -k1,1 -k2,2n ${Data5endRPF}.plus.bedGraph.t > ${Data5endRPF}.plus.bedGraph && rm -rf ${Data5endRPF}.plus.bedGraph.t
+  sort -k1,1 -k2,2n ${Data5endRPF}.minus.bedGraph.t > ${Data5endRPF}.minus.bedGraph && rm -rf ${Data5endRPF}.minus.bedGraph.t
+  sort -k1,1 -k2,2n ${DataFullRPF}.plus.bedGraph.t > ${DataFullRPF}.plus.bedGraph && rm -rf ${DataFullRPF}.plus.bedGraph.t
+  sort -k1,1 -k2,2n ${DataFullRPF}.minus.bedGraph.t > ${DataFullRPF}.minus.bedGraph && rm -rf ${DataFullRPF}.minus.bedGraph.t
   $HomeDir/bin/bedGraphToBigWig ${Data5endRPF}.plus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${Data5endRPF}.plus.bedGraph.bw
   $HomeDir/bin/bedGraphToBigWig ${Data5endRPF}.minus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${Data5endRPF}.minus.bedGraph.bw
   $HomeDir/bin/bedGraphToBigWig ${DataFullRPF}.plus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${DataFullRPF}.plus.bedGraph.bw
@@ -870,10 +900,14 @@ if [ $normFactor != "unassigned" ];then
   mv ${DataFullRPF}.plus.bedGraph.bw ${DataFullRPF}.plus.Norm.bedGraph.bw
   mv ${DataFullRPF}.minus.bedGraph.bw ${DataFullRPF}.minus.Norm.bedGraph.bw
   echo "   Generating track files using raw data"
-  bedtools genomecov -bga -split -strand + -i ${Data5endRPF} -scale 1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.plus.bedGraph
-  bedtools genomecov -bga -split -strand - -i ${Data5endRPF} -scale -1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.minus.bedGraph
-  bedtools genomecov -bga -split -strand + -i ${DataFullRPF} -scale 1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.plus.bedGraph
-  bedtools genomecov -bga -split -strand - -i ${DataFullRPF} -scale -1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.minus.bedGraph
+  bedtools genomecov -bga -split -strand + -i ${Data5endRPF} -scale 1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.plus.bedGraph.t
+  bedtools genomecov -bga -split -strand - -i ${Data5endRPF} -scale -1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${Data5endRPF}.minus.bedGraph.t
+  bedtools genomecov -bga -split -strand + -i ${DataFullRPF} -scale 1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.plus.bedGraph.t
+  bedtools genomecov -bga -split -strand - -i ${DataFullRPF} -scale -1 -g $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt > ${DataFullRPF}.minus.bedGraph.t
+  sort -k1,1 -k2,2n ${Data5endRPF}.plus.bedGraph.t > ${Data5endRPF}.plus.bedGraph && rm -rf ${Data5endRPF}.plus.bedGraph.t
+  sort -k1,1 -k2,2n ${Data5endRPF}.minus.bedGraph.t > ${Data5endRPF}.minus.bedGraph && rm -rf ${Data5endRPF}.minus.bedGraph.t
+  sort -k1,1 -k2,2n ${DataFullRPF}.plus.bedGraph.t > ${DataFullRPF}.plus.bedGraph && rm -rf ${DataFullRPF}.plus.bedGraph.t
+  sort -k1,1 -k2,2n ${DataFullRPF}.minus.bedGraph.t > ${DataFullRPF}.minus.bedGraph && rm -rf ${DataFullRPF}.minus.bedGraph.t
   $HomeDir/bin/bedGraphToBigWig ${Data5endRPF}.plus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${Data5endRPF}.plus.bedGraph.bw
   $HomeDir/bin/bedGraphToBigWig ${Data5endRPF}.minus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${Data5endRPF}.minus.bedGraph.bw
   $HomeDir/bin/bedGraphToBigWig ${DataFullRPF}.plus.bedGraph $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ${DataFullRPF}.plus.bedGraph.bw
