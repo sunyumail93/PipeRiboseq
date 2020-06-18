@@ -481,7 +481,6 @@ mkdir $SalmonOutputDir/${OutputSuffix}.salmon
 mv $SalmonOutputDir/aux_info $SalmonOutputDir/${OutputSuffix}.salmon/ && mv $SalmonOutputDir/cmd_info.json $SalmonOutputDir/${OutputSuffix}.salmon/
 mv $SalmonOutputDir/lib_format_counts.json $SalmonOutputDir/${OutputSuffix}.salmon/ && mv $SalmonOutputDir/libParams $SalmonOutputDir/${OutputSuffix}.salmon/
 mv $SalmonOutputDir/logs $SalmonOutputDir/${OutputSuffix}.salmon/
-module unload salmon
 
 echo "*****************************************************************************"
 echo "10. Quantify gene abundance using featureCounts from Subread package:"
@@ -586,8 +585,10 @@ awk '{if (length($13)>25 && length($13)<33) print $0}' $GenomeMappingDir/${Outpu
 awk 'BEGIN{OFS="\t"}{print $1,$2,$3,1,$5,$6,$7,$8,$9,$10,$11,$12}' $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed13 > $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12
 
 echo "   Identifying 5end mismatches"
-bedtools getfasta -s -split -fi $HomeDir/$genome/Sequence/${genome}.fa -bed $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12 | awk 'NR%2==0 {print toupper($0)}' > \
-    $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12.seq
+#older bedtools versions may not allow direct output. We have to use -fo parameter.
+bedtools getfasta -s -split -fi $HomeDir/$genome/Sequence/${genome}.fa -bed $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12 -fo $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12.s
+awk 'NR%2==0 {print toupper($0)}' $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12.s > $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12.seq
+rm -rf $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12.s
 paste $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed13 $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12.seq > $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed14 && \
     rm -rf $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed12.seq
 python $HomeDir/bin/TagBED14Mismatch5end.py $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed14 $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed14tag
