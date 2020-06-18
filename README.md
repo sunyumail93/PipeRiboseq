@@ -55,6 +55,7 @@ cat mm10.RefSeq.reduced.bed12.fa.t|sed 's/::.*//' > mm10.RefSeq.reduced.bed12.fa
 2c, Set up index files:
 ```
 mkdir PipelineHomeDir/mm10/Index
+cd PipelineHomeDir/mm10/Index
 
 #STAR index:
 mkdir STARIndex
