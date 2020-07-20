@@ -50,6 +50,7 @@ gunzip *.gz
 cd ../Sequence
 bedtools getfasta -s -split -name -fi mm10.fa -bed ../Annotation/mm10.RefSeq.reduced.bed12 -fo mm10.RefSeq.reduced.bed12.fa.t
 cat mm10.RefSeq.reduced.bed12.fa.t|sed 's/::.*//' > mm10.RefSeq.reduced.bed12.fa
+rm -rf mm10.RefSeq.reduced.bed12.fa.t
 ```
 
 2c, Set up index files:
