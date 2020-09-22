@@ -1,5 +1,6 @@
 # PipeRiboseq
 A comprehensive pipeline for Ribo-seq data analysis (mapping, quantification and visualization).
+
 ## Software prerequisites
 This pipeline is designed to run on Linux servers, and requires the following softwares:
 ```
