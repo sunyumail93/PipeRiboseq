@@ -128,7 +128,7 @@ def Converter(offdict, MMoffdict):
                 fo.write(CoorList[0]+"\t"+str(Start)+"\t"+str(NewEnd)+"\t"+CoorList[3]+"\t"+CoorList[4]+"\t"+Strand+"\t"+str(Start)+"\t"+str(NewEnd)+"\t"+CoorList[8]+"\t"+str(NewExonNum)+"\t"+",".join(map(str,NewLenBlock))+"\t"+",".join(map(str,NewStartBlock))+"\t"+CoorList[12]+"\n")
 
 if len(sys.argv) != 5: #if the length of argv is not equal to 5, then print warning message
-    print "This script takes RPF bed14 file as input (col14 is Y/N 5end mismatch tag), modify the reads based on the RoTISH P offset, and using a given p site offset as default (12nt usually)."
+    print "This script takes RPF bed14 file as input (col14 is Y/N 5end mismatch tag), modify the reads based on the RiboTISH P offset, and using a given p site offset as default (12nt usually)."
     print "Normally the offset is between [10,15], and won't be longer than the minimal read length (usually 26 nt for size selected bed13.RPF files)."
     print "Column 2,3,7,8,10,11,12 may be modified, and the output read coordinate length is Original length - P offset (You can know the real length from the col13)."
     print "One possible drawback is that we cannot extend the right end since we don't know the annotation (whether is may cross splicing site or not)."
