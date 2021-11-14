@@ -241,7 +241,7 @@ if [ -s $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt ];then
   echo "   ChromInfo: "${genome}.ChromInfo.txt
   let dependenciescount=$dependenciescount+1
 else
-  faSize -tab -detailed $HomeDir/$genome/Sequence/${genome}.fa > $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt && \
+  $HomeDir/bin/faSize -tab -detailed $HomeDir/$genome/Sequence/${genome}.fa > $HomeDir/$genome/Sequence/${genome}.ChromInfo.txt && \
   echo "   [Error] ChromInfo lost, generate a new one.." && let dependenciescount=$dependenciescount+1
 fi
 if [ -s $HomeDir/$genome/Sequence/${genome}.RefSeq.reduced.bed12.fa ];then
