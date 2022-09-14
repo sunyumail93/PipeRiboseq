@@ -602,7 +602,7 @@ else
   echo "offdict = {'m0':{}}" > $RiboqcDir/${OutputSuffix}.${genome}.sorted.bam.para.py
 fi
 echo "   Correcting P offset"
-python $HomeDir/bin/Shift5endOffset_BED14RPF.py $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed14tag $Poffset $RiboqcDir/${OutputSuffix}.${genome}.sorted.bam.para.py $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.PShifted.bed13
+$HomeDir/bin/Shift5endOffset_BED14RPF.py $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed14tag $Poffset $RiboqcDir/${OutputSuffix}.${genome}.sorted.bam.para.py $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.PShifted.bed13
 rm -rf $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed14 $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.bed14tag
 echo "   Extracting 5end 1 nt"
 awk '{OFS="\t";if ($6=="+") print $1,$2,$2+1,1,$5,$6,$2,$2+1,$9,1,1,0,$13;else print $1,$3-1,$3,1,$5,$6,$3-1,$3,$9,1,1,0,$13}' $GenomeMappingDir/${OutputSuffix}.${genome}.sorted.RPF.PShifted.bed13 > \
