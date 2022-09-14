@@ -3,6 +3,7 @@
 #This script adds a tag to indicate 5end mismatch from bed14 input (col13 is original sequenced reads, and col14 is genome sequences)
 #The output has a modified col14 with Y (for 5-end mismatch) and N for non-mismatch
 #Version: Yu Sun, 2018-12-29
+#Version: Yu Sun, 2022-09-14, update for Python3
                                                                           
 import sys
 
@@ -23,8 +24,8 @@ def Counter():
     fo.close()
 
 if len(sys.argv) != 3:
-    print "This script adds a tag to indicate 5-end mismatch from bed14 input (col13 is original sequenced reads, and col14 is genome sequences)"
-    print "The output has a modified col14 with Y (for 5-end mismatch) and N for non-mismatch"
-    print "Usage: [TagBED14Mismatch5end.py] [Input.bed14] [Output.bed14]"
+    print("This script adds a tag to indicate 5-end mismatch from bed14 input (col13 is original sequenced reads, and col14 is genome sequences)")
+    print("The output has a modified col14 with Y (for 5-end mismatch) and N for non-mismatch")
+    print("Usage: [TagBED14Mismatch5end.py] [Input.bed14] [Output.bed14]")
 else:
     Counter()

@@ -4,6 +4,7 @@
 #Input: get from bed12 (convert bam to bed12) and paste the col10 of sam/bam file
 #Output: a correct bed13
 #Version: Yu Sun, 2018-12-29
+#Version: Yu Sun, 2022-09-14, update for Python3
                                                                           
 import sys
 
@@ -59,15 +60,15 @@ def Counter():
             Comp=Complementer(Reversed)
         else:
             Comp=Sequence
-#        print Strand+"\t"+Comp
+#        print(Strand+"\t"+Comp)
         fo.write(SplitLine[0]+"\t"+SplitLine[1]+"\t"+SplitLine[2]+"\t"+SplitLine[3]+"\t"+SplitLine[4]+"\t"+SplitLine[5]+"\t"+SplitLine[6]+"\t"+SplitLine[7]+"\t"+SplitLine[8]+"\t"+SplitLine[9]+"\t"+SplitLine[10]+"\t"+SplitLine[11]+"\t"+Comp+"\n")
 
     fi.close()
     fo.close()
 
 if len(sys.argv) != 3:
-    print "This script takes original bed13 as input, finalize it by reversing col13 to be the real sequence when the read mapped to reverse strand"
-    print "Input: get from bed12 (convert bam to bed12) and paste the col10 of sam/bam file"
-    print "Usage: [BED13Finalizer.py] [InputBED13-Like File] [Output BED13]"
+    print("This script takes original bed13 as input, finalize it by reversing col13 to be the real sequence when the read mapped to reverse strand")
+    print("Input: get from bed12 (convert bam to bed12) and paste the col10 of sam/bam file")
+    print("Usage: [BED13Finalizer.py] [InputBED13-Like File] [Output BED13]")
 else:
     Counter()

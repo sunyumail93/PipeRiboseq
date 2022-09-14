@@ -8,6 +8,7 @@
 #Suggested output name: BED13.XntShifted.RPF
 #Version: Yu Sun, 2018-09-27 
 #Version: Yu Sun, 2018-12-29
+#Version: Yu Sun, 2022-09-14, update for Python3
 
 import sys
 
@@ -18,22 +19,23 @@ def ReadPOffset(Default):
     print("Reading in the following P offset dict: \n" + data.strip())
     offdict = {}
     MMoffdict = {}
-    exec (data)
+    exec(data)
+    print("this is offdict: ", offdict)
     MMoffdict = offdict['m0']
     for i in range(26, 33):
         if i in offdict:
             if i in MMoffdict:
-                print "Length: " + str(i) + "nt, 5end match Offset (From file)  : " + str(offdict[i]) + ", 5end mismatch Offset (From file)  : " + str(MMoffdict[i])
+                print("Length: " + str(i) + "nt, 5end match Offset (From file)  : " + str(offdict[i]) + ", 5end mismatch Offset (From file)  : " + str(MMoffdict[i]))
             else:
                 MMoffdict[i] = DefaultOffset + 1
-                print "Length: " + str(i) + "nt, 5end match Offset (From file)  : " + str(offdict[i]) + ", 5end mismatch Offset (Use default): " + str(MMoffdict[i])
+                print("Length: " + str(i) + "nt, 5end match Offset (From file)  : " + str(offdict[i]) + ", 5end mismatch Offset (Use default): " + str(MMoffdict[i]))
         else:
             offdict[i] = DefaultOffset
             if i in MMoffdict:
-                print "Length: " + str(i) + "nt, 5end match Offset (Use default): " + str(offdict[i]) + ", 5end mismatch Offset (From file)  : " + str(MMoffdict[i])
+                print("Length: " + str(i) + "nt, 5end match Offset (Use default): " + str(offdict[i]) + ", 5end mismatch Offset (From file)  : " + str(MMoffdict[i]))
             else:
                 MMoffdict[i] = DefaultOffset + 1
-                print "Length: " + str(i) + "nt, 5end match Offset (Use default): " + str(offdict[i]) + ", 5end mismatch Offset (Use default): " + str(MMoffdict[i])
+                print("Length: " + str(i) + "nt, 5end match Offset (Use default): " + str(offdict[i]) + ", 5end mismatch Offset (Use default): " + str(MMoffdict[i]))
     return offdict, MMoffdict
 
 def Converter(offdict, MMoffdict):
@@ -128,19 +130,19 @@ def Converter(offdict, MMoffdict):
                 fo.write(CoorList[0]+"\t"+str(Start)+"\t"+str(NewEnd)+"\t"+CoorList[3]+"\t"+CoorList[4]+"\t"+Strand+"\t"+str(Start)+"\t"+str(NewEnd)+"\t"+CoorList[8]+"\t"+str(NewExonNum)+"\t"+",".join(map(str,NewLenBlock))+"\t"+",".join(map(str,NewStartBlock))+"\t"+CoorList[12]+"\n")
 
 if len(sys.argv) != 5: #if the length of argv is not equal to 5, then print warning message
-    print "This script takes RPF bed14 file as input (col14 is Y/N 5end mismatch tag), modify the reads based on the RiboTISH P offset, and using a given p site offset as default (12nt usually)."
-    print "Normally the offset is between [10,15], and won't be longer than the minimal read length (usually 26 nt for size selected bed13.RPF files)."
-    print "Column 2,3,7,8,10,11,12 may be modified, and the output read coordinate length is Original length - P offset (You can know the real length from the col13)."
-    print "One possible drawback is that we cannot extend the right end since we don't know the annotation (whether is may cross splicing site or not)."
-    print "But for RPF analysis, we are more interested in the 5ends, so this method is still beneficial."
-    print "Providing an empty offset file with only this line: offdict = {'m0':{}}, then this program will use Default P_Offset"
-    print "Usage: [Shift5endOffset_BED14RPF.py] [BED14.RPF] [Default P_Offset] [Offset dict|RiboTISH.para.py] [Output|BED13.PShifted.RPF]"
-    print "     Suggested output name: BED13.PShifted.RPF"
+    print("This script takes RPF bed14 file as input (col14 is Y/N 5end mismatch tag), modify the reads based on the RiboTISH P offset, and using a given p site offset as default (12nt usually).")
+    print("Normally the offset is between [10,15], and won't be longer than the minimal read length (usually 26 nt for size selected bed13.RPF files).")
+    print("Column 2,3,7,8,10,11,12 may be modified, and the output read coordinate length is Original length - P offset (You can know the real length from the col13).")
+    print("One possible drawback is that we cannot extend the right end since we don't know the annotation (whether is may cross splicing site or not).")
+    print("But for RPF analysis, we are more interested in the 5ends, so this method is still beneficial.")
+    print("Providing an empty offset file with only this line: offdict = {'m0':{}}, then this program will use Default P_Offset")
+    print("Usage: [Shift5endOffset_BED14RPF.py] [BED14.RPF] [Default P_Offset] [Offset dict|RiboTISH.para.py] [Output|BED13.PShifted.RPF]")
+    print("     Suggested output name: BED13.PShifted.RPF")
 else:
     DefaultOffset=int(sys.argv[2])
     offdict, mmoffdict = ReadPOffset(DefaultOffset)
-    print "Offsets used for 5end correction:"
-    print offdict
-    print "Offsets for 5end mismatches reads:"
-    print mmoffdict
+    print("Offsets used for 5end correction:")
+    print(offdict)
+    print("Offsets for 5end mismatches reads:")
+    print(mmoffdict)
     Converter(offdict, mmoffdict)

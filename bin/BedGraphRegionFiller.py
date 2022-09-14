@@ -3,6 +3,7 @@
 #This script takes benGraph as input, conver it into a single-base bedGraph for figure plotting
 #There is another script written using bash which does exact the same thing: BedGraphRegionFiller.sh, but this python script is much much faster.
 #Version: Yu Sun, 2018-10-27
+#Version: Yu Sun, 2022-09-14, update for Python3
                                                                           
 import sys
 
@@ -17,8 +18,8 @@ def Counter():
     fi.close()
     fo.close()
 if len(sys.argv) != 3:
-    print "This script takes benGraph as input, conver it into a single-base bedGraph for figure plotting"
-    print "There is another script written using bash which does exact the same thing: BedGraphRegionFiller.sh, but this python script is much much faster."
-    print "Usage: [Template.py] [Input.bedGraph] [Output.bedGraph.sb]"
+    print("This script takes benGraph as input, conver it into a single-base bedGraph for figure plotting")
+    print("There is another script written using bash which does exact the same thing: BedGraphRegionFiller.sh, but this python script is much much faster.")
+    print("Usage: [Template.py] [Input.bedGraph] [Output.bedGraph.sb]")
 else:
     Counter()

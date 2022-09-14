@@ -3,6 +3,7 @@
 #This script takes Annotation bed12 as input, extend col2 and col3 borders, considering the splicing
 #This is similar to bedtools slop, but considering the splicing. So only the first and last exon length may change.
 #Version: Yu H. Sun, 2020-06-02
+#Version: Yu H. Sun, 2022-09-14, update for Python3
                                                                           
 import sys
 
@@ -60,8 +61,8 @@ def Counter():
                 fo.write(CoorList[0]+"\t"+str(Start-Right)+"\t"+str(End+Left)+"\t"+CoorList[3]+"\t"+CoorList[4]+"\t"+Strand+"\t"+CoorList[6]+"\t"+CoorList[7]+"\t"+CoorList[8]+"\t"+str(ExonNum)+"\t"+",".join(map(str,ExonLenBlock_clean_list))+"\t"+",".join(map(str,ExonStartBlock_clean_list))+"\n")
 
 if len(sys.argv) != 5: #if the length of argv is not equal to 5, then print warning message
-    print "This script takes Annotation bed12 as input, extend col2 and col3 borders, considering the splicing"
-    print "This is similar to bedtools slop, but considering the splicing"
-    print "Usage: [BED12BorderExtender.py] [Gene.bed12] [LeftExtension] [RightExtension] [Output.ext.bed12]"
+    print("This script takes Annotation bed12 as input, extend col2 and col3 borders, considering the splicing")
+    print("This is similar to bedtools slop, but considering the splicing")
+    print("Usage: [BED12BorderExtender.py] [Gene.bed12] [LeftExtension] [RightExtension] [Output.ext.bed12]")
 else:
     Counter()
