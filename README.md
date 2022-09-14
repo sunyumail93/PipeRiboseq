@@ -9,7 +9,7 @@ Sun, Y.H., Zhu, J., Xie, L.H. et al. Ribosomes guide pachytene piRNA formation o
 This pipeline is designed to run on Linux servers, and requires the following softwares:
 ```
 R
-Python2
+Python3
 STAR
 bowtie2
 bedtools
@@ -18,13 +18,39 @@ salmon
 FeatureCount (from Subread)
 fastqc (optional)
 cufflinks (optional)
-ribotish (optional, it requires Python2)
+ribotish (optional, it requires Python3)
 ```
-Besides the pipeline script PipeRiboseq.sh, dependencies are in ./bin folder
 
-Two UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: bedGraphToBigWig and bigWigToBedGraph. Other scripts were generated from this project.
+The above software can also be installed using conda, as below:
+```
+#Create pipernaseq environment
+conda create --name piperiboseq
+conda install -n piperiboseq -c bioconda bowtie2
+conda install -n piperiboseq -c bioconda ribotish
+conda install -n piperiboseq -c bioconda star
+conda install -n piperiboseq -c bioconda bedtools
+conda install -n piperiboseq -c bioconda samtools
+conda install -n piperiboseq -c bioconda subread
+conda install -n piperiboseq -c bioconda fastqc
+conda install -n piperiboseq -c bioconda git
+#We ignore cufflinks since usually we don't need it.
 
-To save time, you can directly use STAR and featureCounts program in the ./bin folder (just add it to $PATH), without installing them again.
+#This environment is not compatible with salmon, so we have to download salmon and install it separately:
+wget "https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1.9.0_linux_x86_64.tar.gz"
+tar -xvzf salmon-1.9.0_linux_x86_64.tar.gz
+#Finally, add the salmon-1.9.0_linux_x86_64/bin directory to PATH
+
+#Create another env for multiqc, due to the conflict with piperiboseq:
+conda create --name multiqc_env
+conda install -n multiqc_env -c bioconda multiqc
+```
+
+The main pipeline script is PipeRiboseq.sh, and dependencies are in the ./bin folder. 
+
+Two UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: bedGraphToBigWig and bigWigToBedGraph. If the binary files the ./bin folder are not working (Execute ./bin/bedGraphToBigWig but got errors), please re-download it by choosing the correct version (e.g. linux.x86_64).
+
+Also, for Mac OS, set the pipeline home directory at PipeRNAseq.sh line 59 manually (and comment out line 57):
+`HomeDir="/Users/yusun/Downloads/PipelineHomeDir"`
 
 ## Pipeline setup
 
@@ -69,7 +95,7 @@ STAR --runMode genomeGenerate --genomeDir STARIndex --genomeFastaFiles ../Sequen
 
 #salmon index (SalmonIndex directory will be created automatically):
 #Genome FASTA index fai file will also be generated
-salmon index -t ../Sequence/mm10.RefSeq.reduced.bed12.fa -i SalmonIndex --type quasi -k 31
+salmon index -t ../Sequence/mm10.RefSeq.reduced.bed12.fa -i SalmonIndex
 
 #miRNA and rRNA bowtie2 index:
 mkdir miRNAIndex
@@ -93,6 +119,7 @@ chmod +x PipeRiboseq.sh
 chmod +x ./bin/FastqAdapterTimmer
 chmod +x ./bin/bedGraphToBigWig
 chmod +x ./bin/bigWigToBedGraph
+chmod +x ./bin/*py
 ```
 
 ## Pipeline components
