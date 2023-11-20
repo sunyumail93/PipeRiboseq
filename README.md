@@ -52,7 +52,9 @@ Also, for Mac OS, set the pipeline home directory at PipeRNAseq.sh line 59 manua
 
 ## Pipeline setup
 
-For mm10 (mouse) and hg38 (human), some files have been provided. Here is an example of mm10 genome setup.
+For mm10 (mouse) and hg38 (human), some files have been provided. If you have installed [PipeRNAseq](https://github.com/sunyumail93/PipeRNAseq) or [PipeSmRNAseq](https://github.com/sunyumail93/PipeSmRNAseq) pipeline before, then the folders such as the **bin**, **genome** folders (mm10, hg38, etc.) are compatible and many files can be shared.
+
+Here is an example of mm10 genome setup.
 
 1, Download scripts from github to Linux server:
 
