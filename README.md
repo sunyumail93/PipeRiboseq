@@ -63,6 +63,8 @@ git clone https://github.com/sunyumail93/PipeRiboseq.git
 mv PipeRiboseq PipelineHomeDir
 ```
 
+Also, add PipelineHomeDir to PATH so PipeRiboseq.sh can be recognized.
+
 2, Set up index files for genome mapping
 
 2a, Download whole genome fasta sequence and chromosome sizes from UCSC goldenpath:
