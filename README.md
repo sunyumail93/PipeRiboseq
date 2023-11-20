@@ -45,9 +45,7 @@ conda create --name multiqc_env
 conda install -n multiqc_env -c bioconda multiqc
 ```
 
-The main pipeline script is PipeRiboseq.sh, and dependencies are in the ./bin folder. 
-
-Three UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: faSize, bedGraphToBigWig, and bigWigToBedGraph. If the binary files in the ./bin folder are not working (Execute ./bin/bedGraphToBigWig but got errors), please re-download it by choosing the correct version (e.g. linux.x86_64).
+The main pipeline script is PipeRiboseq.sh, and dependencies are in the ./bin folder.
 
 Also, for Mac OS, set the pipeline home directory at PipeRNAseq.sh line 59 manually (and comment out line 57):
 `HomeDir="/Users/yusun/Downloads/PipelineHomeDir"`
@@ -120,10 +118,13 @@ g++ FastqAdapterTimmer.cpp -o FastqAdapterTimmer
 ```
 chmod +x PipeRiboseq.sh
 chmod +x ./bin/FastqAdapterTimmer
+chmod +x ./bin/faSize
 chmod +x ./bin/bedGraphToBigWig
 chmod +x ./bin/bigWigToBedGraph
 chmod +x ./bin/*py
 ```
+
+Three UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: faSize, bedGraphToBigWig, and bigWigToBedGraph. If the binary files in the ./bin folder are not working (After `chmod +x`, then execute ./bin/bedGraphToBigWig but get errors), please re-download it by choosing the correct version (e.g. linux.x86_64).
 
 ## Pipeline components
 ```
