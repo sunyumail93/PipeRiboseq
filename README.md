@@ -1,12 +1,12 @@
 # PipeRiboseq
-A comprehensive pipeline for Ribo-seq data analysis (mapping, quantification and visualization).
+A comprehensive pipeline for Ribo-seq data analysis (mapping, quantification, and visualization).
 
 PipeRiboseq has been used in the following publication:
 
 Sun, Y.H., Zhu, J., Xie, L.H. et al. Ribosomes guide pachytene piRNA formation on long intergenic piRNA precursors. Nat Cell Biol 22, 200–212 (2020). https://doi.org/10.1038/s41556-019-0457-4
 
 ## Software prerequisites
-This pipeline is designed to run on Linux servers, and requires the following softwares:
+This pipeline is designed to run on Linux servers, and requires the following software:
 ```
 R
 Python3
@@ -33,7 +33,7 @@ conda install -n piperiboseq -c bioconda samtools
 conda install -n piperiboseq -c bioconda subread
 conda install -n piperiboseq -c bioconda fastqc
 conda install -n piperiboseq -c bioconda git
-#We ignore cufflinks since usually we don't need it.
+#We ignore cufflinks since we usually don't need it.
 
 #This environment is not compatible with salmon, so we have to download salmon and install it separately:
 wget "https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1.9.0_linux_x86_64.tar.gz"
@@ -45,7 +45,7 @@ conda create --name multiqc_env
 conda install -n multiqc_env -c bioconda multiqc
 ```
 
-The main pipeline script is PipeRiboseq.sh, and dependencies are in the ./bin folder.
+The main pipeline script is [PipeRiboseq.sh](https://github.com/sunyumail93/PipeRiboseq/blob/master/PipeRiboseq.sh), and dependencies are in the ./bin folder.
 
 Also, for Mac OS, set the pipeline home directory at PipeRNAseq.sh line 59 manually (and comment out line 57):
 `HomeDir="/Users/yusun/Downloads/PipelineHomeDir"`
@@ -107,9 +107,15 @@ bowtie2-build ../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
 
 3, Compile the C++ program if necessary
 
-The FastqAdapterTimmer binary file was compiled on Linux system. It may need to be compiled again:
+The FastqAdapterTimmer binary file was compiled on a Linux system. It may need to be compiled again:
 
 ```
+#Check if the compiled file is working or not:
+cd bin
+chmod +x FastqAdapterTimmer
+./FastqAdapterTimmer
+
+#If you encountered an error after running the above command, then compile it:
 g++ FastqAdapterTimmer.cpp -o FastqAdapterTimmer
 ```
 
@@ -124,7 +130,7 @@ chmod +x ./bin/bigWigToBedGraph
 chmod +x ./bin/*py
 ```
 
-Three UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: faSize, bedGraphToBigWig, and bigWigToBedGraph. If the binary files in the ./bin folder are not working (After `chmod +x`, then execute ./bin/bedGraphToBigWig but get errors), please re-download it by choosing the correct version (e.g. linux.x86_64).
+Three UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: faSize, bedGraphToBigWig, and bigWigToBedGraph. If the binary files in the ./bin folder are not working (After `chmod +x`, then execute ./bin/bedGraphToBigWig but get errors), please re-download it by choosing the correct version (e.g. linux.x86_64). It would be better to check this manually before running the pipeline.
 
 ## Pipeline components
 ```
