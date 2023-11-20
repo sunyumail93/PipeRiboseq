@@ -129,6 +129,7 @@ chmod +x ./bin/FastqAdapterTimmer
 chmod +x ./bin/faSize
 chmod +x ./bin/bedGraphToBigWig
 chmod +x ./bin/bigWigToBedGraph
+chmod +x ./bin/*sh
 chmod +x ./bin/*py
 ```
 
