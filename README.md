@@ -54,16 +54,17 @@ Also, for Mac OS, set the pipeline home directory at PipeRNAseq.sh line 59 manua
 
 ## Pipeline setup
 
-Here is an example of mm10 genome setup.
+For mm10 (mouse) and hg38 (human), some files have been provided. Here is an example of mm10 genome setup.
 
 1, Download scripts from github to Linux server:
 
 ```
 git clone https://github.com/sunyumail93/PipeRiboseq.git
 mv PipeRiboseq PipelineHomeDir
-```
 
-Also, add PipelineHomeDir to PATH so PipeRiboseq.sh can be recognized.
+#Also, add PipelineHomeDir to PATH so PipeRiboseq.sh can be recognized:
+PATH=$PATH:/path/to/PipelineHomeDir
+```
 
 2, Set up index files for genome mapping
 
