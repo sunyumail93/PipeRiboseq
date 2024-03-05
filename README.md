@@ -23,10 +23,10 @@ ribotish (optional, it requires Python3)
 
 The above software can also be installed using conda, as below:
 ```
-#Create pipernaseq environment
+#Create pipernaseq environment, ~5min
 conda create --name piperiboseq
+conda install -n piperiboseq -c bioconda ribotish   #ribotish needs specific python version. Install first.
 conda install -n piperiboseq -c bioconda bowtie2
-conda install -n piperiboseq -c bioconda ribotish
 conda install -n piperiboseq -c bioconda star
 conda install -n piperiboseq -c bioconda bedtools
 conda install -n piperiboseq -c bioconda samtools
@@ -34,6 +34,10 @@ conda install -n piperiboseq -c bioconda subread
 conda install -n piperiboseq -c bioconda fastqc
 conda install -n piperiboseq -c bioconda git
 #We ignore cufflinks since we usually don't need it.
+
+#Alternatively, you can create the env using the yml file provided:
+conda env create -f conda_env_Linux.yml  #For Linux
+conda env create -f conda_env_MacOS.yml  #For MacOS
 
 #This environment is not compatible with salmon, so we have to download salmon and install it separately:
 wget "https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1.9.0_linux_x86_64.tar.gz"
@@ -56,7 +60,7 @@ For mm10 (mouse) and hg38 (human), some files have been provided. If you have in
 
 Here is an example of mm10 genome setup.
 
-1, Download scripts from github to Linux server:
+1, Download scripts from GitHub to Linux server:
 
 ```
 git clone https://github.com/sunyumail93/PipeRiboseq.git
@@ -184,7 +188,7 @@ Manual page:
 
 ![](images/Usages.png)
 
-The trimming script also has manual page:
+The trimming script also has a manual page:
 
 ```
 FastqAdapterTimmer
@@ -200,13 +204,13 @@ A regular run using mostly default parameters:
 PipeRiboseq.sh -i Data.fastq.gz -g mm10 -normCDS
 ```
 
-More parameters used, and plot given genes in list file (mRNAs in the list file must be Refseq mRNA ID: NM_xxx):
+More parameters used, and plot given genes in the list file (mRNAs in the list file must be Refseq mRNA ID: NM_xxx):
 
 ```
 PipeRiboseq.sh -i Data.fastq.gz -g mm10 -noqc -noriboqc -p 4 -normCDS -m 3 -plotRNA list
 ```
 
-## Run a real data to test the pipeline
+## Run a real dataset to test the pipeline
 
 1, Download data
 
