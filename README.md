@@ -219,13 +219,16 @@ More parameters used, and plot given genes in the list file (mRNAs in the list f
 PipeRiboseq.sh -i Data.fastq.gz -g mm10 -noqc -noriboqc -p 4 -normCDS -m 3 -plotRNA list
 ```
 
-## Test the pipeline using the demo fastq file
+## Test run
 
 The demo fastq file is in PipelineHomeDir/Demo/Demo.trimmed.fastq.gz, which is a small fraction of the public dataset [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?term=SRR989509&utm_source=gquery&utm_medium=search).
 
 Run the demo to test the pipeline. This will finish in ~10min:
 
 ```
+#If using conda, activate the env first:
+conda activate piperiboseq
+
 PipeRiboseq.sh -i Demo.trimmed.fastq.gz -g mm10 -p 4 -normCDS
 ```
 
