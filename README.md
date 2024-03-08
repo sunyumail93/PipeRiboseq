@@ -23,7 +23,7 @@ ribotish (optional, it requires Python3)
 
 The above software can also be installed using conda, as below:
 ```
-#Create pipernaseq environment, ~15-20min
+#Create piperiboseq environment, ~15-20min
 conda create --name piperiboseq
 conda install -n piperiboseq -c bioconda ribotish   #Install ribotish first
 conda install -n piperiboseq -c conda-forge r-base  #Will take a while to solve env
