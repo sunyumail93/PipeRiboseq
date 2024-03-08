@@ -23,9 +23,10 @@ ribotish (optional, it requires Python3)
 
 The above software can also be installed using conda, as below:
 ```
-#Create pipernaseq environment, ~5min
+#Create pipernaseq environment, ~15-20min
 conda create --name piperiboseq
-conda install -n piperiboseq -c bioconda ribotish   #ribotish needs specific python version. Install first.
+conda install -n piperiboseq -c bioconda ribotish   #Install ribotish first
+conda install -n piperiboseq -c conda-forge r-base  #Will take a while to solve env
 conda install -n piperiboseq -c bioconda bowtie2
 conda install -n piperiboseq -c bioconda star
 conda install -n piperiboseq -c bioconda bedtools
@@ -36,8 +37,8 @@ conda install -n piperiboseq -c bioconda git
 #We ignore cufflinks since we usually don't need it.
 
 #Alternatively, you can create the env using the yml file provided:
-conda env create -f conda_env_Linux.yml  #For Linux
-conda env create -f conda_env_MacOS.yml  #For MacOS
+conda env create --name piperiboseq --file=conda_env_Linux_piperiboseq.yml  #For Linux
+conda env create --name piperiboseq --file=conda_env_MacOS_piperiboseq.yml  #For MacOS
 
 #This environment is not compatible with salmon, so we have to download salmon and install it separately:
 wget "https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1.9.0_linux_x86_64.tar.gz"
@@ -51,7 +52,8 @@ conda install -n multiqc_env -c bioconda multiqc
 
 The main pipeline script is [PipeRiboseq.sh](https://github.com/sunyumail93/PipeRiboseq/blob/master/PipeRiboseq.sh), and dependencies are in the ./bin folder.
 
-Also, for Mac OS, set the pipeline home directory at PipeRNAseq.sh line 59 manually (and comment out line 57):
+Also, for Mac OS, manually set the pipeline home directory at PipeRiboseq.sh line 58 manually,
+  because the 'readlink' command does not work for MacOS:
 `HomeDir="/Users/yusun/Downloads/PipelineHomeDir"`
 
 ## Pipeline setup
@@ -60,7 +62,7 @@ For mm10 (mouse) and hg38 (human), some files have been provided. If you have in
 
 Here is an example of mm10 genome setup.
 
-1, Download scripts from GitHub to Linux server:
+1, Download scripts from GitHub to a Linux server:
 
 ```
 git clone https://github.com/sunyumail93/PipeRiboseq.git
@@ -83,7 +85,8 @@ wget "http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.chrom.sizes" -
 
 2b, Extract RNA sequences
 ```
-cd PipelineHomeDir/mm10/Annotation
+#Go to PipelineHomeDir/mm10/Annotation
+cd ../Annotation
 gunzip *.gz
 cd ../Sequence
 bedtools getfasta -s -split -name -fi mm10.fa -bed ../Annotation/mm10.RefSeq.reduced.bed12 -fo mm10.RefSeq.reduced.bed12.fa.t
@@ -93,11 +96,14 @@ rm -rf mm10.RefSeq.reduced.bed12.fa.t
 
 2c, Set up index files:
 ```
-mkdir PipelineHomeDir/mm10/Index
-cd PipelineHomeDir/mm10/Index
+#Create PipelineHomeDir/mm10/Index, and go to the Index directory
+cd ../
+mkdir Index
+cd Index
 
 #STAR index:
 mkdir STARIndex
+#This will take ~1h using the 64G memory, 8 CPUs
 STAR --runMode genomeGenerate --genomeDir STARIndex --genomeFastaFiles ../Sequence/mm10.fa --sjdbGTFfile ../Annotation/mm10.RefSeq.reduced.bed12.geneid.gtf --sjdbOverhang 100
 
 #salmon index (SalmonIndex directory will be created automatically):
@@ -116,8 +122,8 @@ bowtie2-build ../Sequence/mm10.miRNA.fa ./miRNAIndex/miRNAIndex
 The FastqAdapterTimmer binary file was compiled on a Linux system. It may need to be compiled again:
 
 ```
-#Check if the compiled file is working or not:
-cd bin
+#Check if the compiled file is working or not. Go to PipelineHomeDir/bin:
+cd ../bin
 chmod +x FastqAdapterTimmer
 ./FastqAdapterTimmer
 
@@ -125,9 +131,12 @@ chmod +x FastqAdapterTimmer
 g++ FastqAdapterTimmer.cpp -o FastqAdapterTimmer
 ```
 
-4, Add executable permissions
+4, Add executable permissions for files under PipelineHomeDir/
 
 ```
+#Go to PipelineHomeDir/
+cd ../
+#Add permission to files
 chmod +x PipeRiboseq.sh
 chmod +x ./bin/FastqAdapterTimmer
 chmod +x ./bin/faSize
@@ -137,7 +146,7 @@ chmod +x ./bin/*sh
 chmod +x ./bin/*py
 ```
 
-Three UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: faSize, bedGraphToBigWig, and bigWigToBedGraph. If the binary files in the ./bin folder are not working (After `chmod +x`, then execute ./bin/bedGraphToBigWig but get errors), please re-download it by choosing the correct version (e.g. linux.x86_64). It would be better to check this manually before running the pipeline.
+Three UCSC tools (from http://hgdownload.soe.ucsc.edu/admin/exe/) are used: faSize, bedGraphToBigWig, and bigWigToBedGraph. If the binary files in the ./bin folder are not working (After `chmod +x`, then execute ./bin/bedGraphToBigWig but get errors), please re-download them by choosing the correct version (e.g. linux.x86_64). It would be better to check this manually before running the pipeline.
 
 ## Pipeline components
 ```
@@ -168,13 +177,13 @@ PipelineHomeDir/
 
 Notes: 
 
-1, For Annotation folder, download GTF file from UCSC table browser. `reduced`: Only one location was chosen when one gene duplicates at multiple genomic loci.
+1, For the Annotation folder, download GTF file from UCSC table browser. `reduced`: Only one location was chosen when one gene duplicates at multiple genomic loci.
 
 2, `uniqMatching.txt` file contains one-to-one matching from transcript to gene name.
 
-3, For Index folder, indexes are not included in this github directory, but need to be created during set up.
+3, For the Index folder, indexes are not included in this github directory, but need to be created during set up.
 
-4, For Sequence folder, `RefSeq.reduced.bed12.fa` was converted from `RefSeq.reduced.bed12` file using bedtools, and removed two rRNA genes (rRNA affects salmon quantification TPM). `genome.fa` and `ChromInfo.txt` files need to be downloaded from UCSC goldenpath. The fai index file is not required now sine it will be generated by samtools when needed.
+4, For the Sequence folder, `RefSeq.reduced.bed12.fa` was converted from `RefSeq.reduced.bed12` file using bedtools, and removed two rRNA genes (rRNA affects salmon quantification TPM). `genome.fa` and `ChromInfo.txt` files need to be downloaded from UCSC goldenpath. The fai index file is not required now since it will be generated by samtools when needed.
 
 ## Usage
 
@@ -208,6 +217,16 @@ More parameters used, and plot given genes in the list file (mRNAs in the list f
 
 ```
 PipeRiboseq.sh -i Data.fastq.gz -g mm10 -noqc -noriboqc -p 4 -normCDS -m 3 -plotRNA list
+```
+
+## Test the pipeline using the demo fastq file
+
+The demo fastq file is in PipelineHomeDir/Demo/Demo.trimmed.fastq.gz, which is a small fraction of the public dataset [GEO SRA: SRR989509](https://www.ncbi.nlm.nih.gov/sra/?term=SRR989509&utm_source=gquery&utm_medium=search).
+
+Run the demo to test the pipeline. This will finish in ~10min:
+
+```
+PipeRiboseq.sh -i Demo.trimmed.fastq.gz -g mm10 -p 4 -normCDS
 ```
 
 ## Run a real dataset to test the pipeline
