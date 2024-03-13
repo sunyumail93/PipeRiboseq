@@ -43,7 +43,8 @@ conda env create --name piperiboseq --file=conda_env_MacOS_piperiboseq.yml  #For
 #This environment is not compatible with salmon, so we have to download salmon and install it separately:
 wget "https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1.9.0_linux_x86_64.tar.gz"
 tar -xvzf salmon-1.9.0_linux_x86_64.tar.gz
-#Finally, add the salmon-1.9.0_linux_x86_64/bin directory to PATH
+#Finally, add the salmon-1.9.0_linux_x86_64/bin directory to PATH:
+PATH=$PATH:/path/to/salmon-1.9.0_linux_x86_64/bin
 
 #Create another env for multiqc, due to the conflict with piperiboseq:
 conda create --name multiqc_env
