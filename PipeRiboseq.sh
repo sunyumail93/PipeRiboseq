@@ -2,7 +2,7 @@
 #PipeRiboseq.sh
 #This is a pipeline for Riboseq FastQ analysis
 #This script requires the lncRNA $7=$8 in ${genome}.RefSeq.reduced.bed12
-#Inputs: Trimmed (e.g use PipeSETrimmer.sh) Ribo-seq single-end raw reads in FASTQ format
+#Inputs: Trimmed (e.g use FastqAdapterTimmer) Ribo-seq single-end raw reads in FASTQ format
 #This pipeline will remove rRNA and miRNA reads, and use rRNA/miRNA free reads for genome mapping and downstream analysis
 #Example: PipeRiboseq.sh -i Embryo.RPF.fastq.gz -g mm10 -noqc
 #Current version 2: Y.H.S, 2019-01-07
@@ -46,13 +46,13 @@ echo "**************************************************************************
 echo "*              PipeRiboseq: pipeline for Ribo-seq analysis.                 *"
 echo "*                       Version 2, 2019-01-07, Y.S                          *"
 echo "*****************************************************************************"
-echo "0. Loading softwares:"
+echo "0. Loading software:"
 #Get current time
 St=`date`
 
-#Load softwares:
+#Load software:
 #Main tools:STAR, cufflinks, salmon, featureCounts (from Subread package)
-#Other tools: samtools, bedtools, fastqc, Python2, R, ribotish
+#Other tools: samtools, bedtools, fastqc, Python3, R, ribotish
 
 #Get pipeline directory
 HomeDir=$(dirname `readlink -f $0`)
