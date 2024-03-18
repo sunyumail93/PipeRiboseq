@@ -111,6 +111,8 @@ cd Index
 
 #STAR index:
 mkdir STARIndex
+#After creating the above folder, run the following index-building command directly in PipelineHomeDir/mm10/Index
+#Do not cd into the STARIndex folder
 #This will take ~1h using the 64G memory, 8 CPUs. Better to run it on HPC:
 STAR --runMode genomeGenerate --genomeDir STARIndex --genomeFastaFiles ../Sequence/mm10.fa --sjdbGTFfile ../Annotation/mm10.RefSeq.reduced.bed12.geneid.gtf --sjdbOverhang 100
 
