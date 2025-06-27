@@ -139,6 +139,8 @@ chmod +x FastqAdapterTimmer
 
 #If you encountered an error after running the above command, then compile it:
 g++ FastqAdapterTimmer.cpp -o FastqAdapterTimmer
+#If you are using a newer version of c++, you may need to run:;
+g++ -std=c++11 FastqAdapterTimmer.cpp -o FastqAdapterTimmer
 ```
 
 4, Add executable permissions for files under PipelineHomeDir/
